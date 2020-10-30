@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+	<context:annotation-config />
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="dataSourceCSInvest" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.CSInvest.driverClassName}" />
+		<property name="url" value="${jdbc.urlCSinvest}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.passwordCSinvest}" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="jdbcTemplateCSInvest" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSourceCSInvest" />
+	</bean>
+	<bean id="appGenerator" class="org.report.java.supports.AppReportGenerator">
+		<property name="sql" value="${appgenerator.sql}" />
+		<property name="sql2" value="${appgenerator.sql2}" />
+		<property name="sql3" value="${appgenerator.sql3}" />
+		<property name="sql4a" value="${appgenerator.sql4a}" />
+		<property name="sql4b" value="${appgenerator.sql4b}" />
+		<property name="sql5a" value="${appgenerator.sql5a}" />
+		<property name="sql5b" value="${appgenerator.sql5b}" />
+		<property name="max_rows" value="${appgenerator.max_rows}" />
+		<property name="sql_parameter_limit" value="${oracle.sql_parameter_limit}" />
+	</bean>
+	<bean id="appBUID" class="org.report.java.supports.AppBUIDReportGenerator">
+		<property name="sql4a" value="${appgenerator.sql4a}" />
+		<property name="sql4b" value="${appgenerator.sql4b}" />
+		<property name="sql5a" value="${appgenerator.sql5a}" />
+		<property name="sql5b" value="${appgenerator.sql5b}" />
+		<property name="sql_parameter_limit" value="${oracle.sql_parameter_limit}" />
+	</bean>
+	<bean id="appSearch" class="org.report.java.supports.AppReportSearch">
+		<property name="fileName" value="${appsearch.fileName}" />
+		<property name="path" value="${appsearch.path}" />
+		<property name="sql1a" value="${appsearch.sql1a}" />
+		<property name="sql1b" value="${appsearch.sql1b}" />
+	</bean>
+	<bean id="appUpdateBulk" class="org.report.java.supports.AppUpdateBulk" />
+	<bean id="appTag" class="org.report.java.supports.AppTag">
+		<property name="sql" value="${apptag.sql}" />
+	</bean>
+	<bean id="appRetrigger" class="org.report.java.supports.AppRetrigger">
+		<property name="sql" value="${appretrigger.sql}" />
+		<property name="sql2" value="${appretrigger.sql2}" />
+		<property name="path" value="${appsearch.path}" />
+	</bean>
+	<bean id="appReportRow2Column" class="org.report.java.supports.AppReportRow2Column" />
+
+	<bean id="appCSInvest" class="org.report.java.supports.AppCSInvest">
+		<property name="sql" value="${csinvest.execmessage.sql}" />
+		<property name="sql2" value="${csinvest.execmessage.sql2}" />
+
+	</bean>
+
+	<bean id="inputProcessor" class="org.report.xml.support.InputProcessor" />
+	<bean id="inputProcessorSearch" class="org.report.xml.support.InputProcessorSearch" />
+	<bean id="updateBulkProcessor" class="org.report.xml.support.UpdateTableProcessor" />
+	<bean id="inputProcessorTag" class="org.report.xml.support.InputProcessorTag" />
+	<bean id="inputProcessorRetrigger" class="org.report.xml.support.InputProcessorRetrigger" />
+	<bean id="jobProcessor" class="org.xpp.csinvest.support.JobProcessor">
+		<property name="sqlUpdate" value="${csinvest.execmessage.update}" />
+		<property name="sqlEvent" value="${csinvest.execmessage.sqlEvent}" />
+		<property name="sqlEventCount" value="${csinvest.execmessage.sqlEventCount}" />
+		<property name="sqlTotalAmount" value="${csinvest.execmessage.sqlTotalAmount}" />
+		<property name="updateDebitEOR" value="${csinvest.execmessage.updateDebitEOR}" />
+		<property name="updateDebitEOROrder" value="${csinvest.execmessage.updateDebitEOROrder}" />
+		<property name="updateExcel" value="${csInvest.execorder.updateExcel}" />
+		<property name="sqlOrder" value="${csinvest.execmessage.sqlOrder}" />
+	</bean>
+	
+	<bean id="readXML" class="org.report.xml.support.ReaderXml" />
+	<bean id="readXMLSearch" class="org.report.xml.support.ReaderXmlSearch" />
+	<bean id="readXMLTag" class="org.report.xml.support.ReaderXmlTag" />
+	<bean id="readXMLRetrigger" class="org.report.xml.support.ReaderXmlRetrigger" />
+
+
+
+	<context:property-placeholder
+		location="jdbc.properties,sql.properties,parameters-test.properties" />
+
+</beans>
