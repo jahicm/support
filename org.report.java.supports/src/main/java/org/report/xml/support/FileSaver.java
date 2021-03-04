@@ -12,6 +12,7 @@ public class FileSaver {
 
 	private String fileName;
 
+	private FileSaver(){}
 	private FileSaver(String fileName) {
 		this.fileName = fileName;
 		file = new File(fileName);
